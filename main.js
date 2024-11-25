@@ -1,10 +1,13 @@
-// main.js
+const projectSelector = require('./projectSelector');  // Import projectSelector function
 
-(async () => {
-    const projectSelector = require('./projectSelector');  // Import the project selector
-    await projectSelector();  // Ask user whether to create a new project or use an existing one
+async function main() {
+    try {
+        console.log('Welcome to the AI Code Reviewer Tool!');
+        await projectSelector();  // Call the projectSelector component
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+}
 
-    await require('./scan')();  // Proceed with scanning after project selection
-    await require('./process')();  // Proceed with file processing
-    await require('./commit')();  // Proceed with commit
-})();
+// Run the main function
+main();

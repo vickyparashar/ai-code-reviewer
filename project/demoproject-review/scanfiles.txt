@@ -1,1 +1,0 @@
-C:\Vicky\tools\ai-code-reviewer\demoproject\config-vm-with-role.ps1s

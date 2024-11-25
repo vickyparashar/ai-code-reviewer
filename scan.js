@@ -1,65 +1,59 @@
-// scan.js
-
 const fs = require('fs');
-const readline = require('readline');
 const path = require('path');
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-});
-
-function prompt(question) {
-    return new Promise((resolve) => rl.question(question, resolve));
-}
-
-async function scanProject() {
+const processFiles = require('./processFiles'); 
+/**
+ * Scan the project files. If the project is existing, check if scanning was already done.
+ * @param {string} folderPath - The root path of the project.
+ * @param {string} projectType - Indicates if the project is new or existing.
+ */
+async function scanProject(folderPath, projectType) {
     try {
-        const scanType = await prompt('Do you want to scan the whole project or a specific folder? (whole/specific): ');
-        const folderPath = await prompt('Enter the folder path: ');
+        if (projectType.toLowerCase() === 'new') {
+            console.log('Starting fresh scan for the new project.');
+            await startScanning(folderPath);
+        } else if (projectType.toLowerCase() === 'existing') {
+            const reviewFolderPath = folderPath
+            if (fs.existsSync(reviewFolderPath)) {
+                const processedFilePath = path.join(reviewFolderPath, 'processedfiles.txt');
+                const scanFilePath = path.join(reviewFolderPath, 'scanfiles.txt');
 
-        if (!fs.existsSync(folderPath)) {
-            console.error('Folder path does not exist.');
-            rl.close();
-            return;
-        }
-
-        const ignorePaths = fs.existsSync(path.join(folderPath, '.gitignore'))
-            ? fs.readFileSync(path.join(folderPath, '.gitignore'), 'utf-8').split('\n').map((line) => line.trim())
-            : [];
-
-        const processedFiles = fs.existsSync('processedfiles.txt')
-            ? fs.readFileSync('processedfiles.txt', 'utf-8').split('\n')
-            : [];
-
-        const files = [];
-
-        function gatherFiles(dir) {
-            const entries = fs.readdirSync(dir, { withFileTypes: true });
-            for (const entry of entries) {
-                const fullPath = path.resolve(dir, entry.name);
-                if (entry.isDirectory()) {
-                    if (!ignorePaths.includes(entry.name)) gatherFiles(fullPath);
-                } else if (!ignorePaths.includes(entry.name) && !processedFiles.includes(fullPath)) {
-                    files.push(fullPath);
+                if (fs.existsSync(processedFilePath) && fs.existsSync(scanFilePath)) {
+                    console.log('Found existing scan files. Resuming scan...');
+                    await resumeScanning(processedFilePath, scanFilePath);
+                } else {
+                    console.log('No previous scan data found. Starting fresh scan...');
+                    await startScanning(folderPath);
                 }
+            } else {
+                console.log('Review folder not found. Starting fresh scan...');
+                await startScanning(folderPath);
             }
-        }
-
-        if (scanType === 'whole') {
-            gatherFiles(folderPath);
         } else {
-            const specificFolder = await prompt('Enter the specific folder to scan: ');
-            gatherFiles(path.resolve(folderPath, specificFolder));
+            console.log('Invalid project type.');
         }
-
-        fs.writeFileSync('scanfiles.txt', files.join('\n'), 'utf-8');
-        console.log('scanfiles.txt generated successfully.');
     } catch (error) {
         console.error('Error:', error.message);
-    } finally {
-        rl.close();
     }
 }
 
-module.exports = scanProject;  // Export as a function
+/**
+ * Start scanning the project files from scratch.
+ * @param {string} folderPath - The root path of the project.
+ */
+async function startScanning(folderPath) {
+    console.log(`Scanning folder: ${folderPath}`);
+    // Add scanning logic here
+}
+
+/**
+ * Resume scanning the project by reading the existing scan files.
+ * @param {string} processedFilePath - Path to the processed files list.
+ * @param {string} scanFilePath - Path to the scan files list.
+ */
+async function resumeScanning(processedFilePath, scanFilePath) {
+    console.log(`Resuming scan using files: ${processedFilePath} and ${scanFilePath}`);
+    await  processFiles(scanFilePath,processedFilePath);
+    // Add resumption logic here
+}
+
+module.exports = scanProject;
