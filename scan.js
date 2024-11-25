@@ -1,18 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 const processFiles = require('./processFiles'); 
+const extractFilesForScanning = require('./extractFilesForScanning');
 /**
  * Scan the project files. If the project is existing, check if scanning was already done.
- * @param {string} folderPath - The root path of the project.
+ * @param {string} reviewFolderPath - The root path of the project.
  * @param {string} projectType - Indicates if the project is new or existing.
  */
-async function scanProject(folderPath, projectType) {
+async function scanProject(orginalProjectPath,reviewFolderPath, projectType) {
     try {
         if (projectType.toLowerCase() === 'new') {
             console.log('Starting fresh scan for the new project.');
-            await startScanning(folderPath);
+            await startScanning(orginalProjectPath);
         } else if (projectType.toLowerCase() === 'existing') {
-            const reviewFolderPath = folderPath
+            const reviewFolderPath = reviewFolderPath
             if (fs.existsSync(reviewFolderPath)) {
                 const processedFilePath = path.join(reviewFolderPath, 'processedfiles.txt');
                 const scanFilePath = path.join(reviewFolderPath, 'scanfiles.txt');
@@ -21,12 +22,12 @@ async function scanProject(folderPath, projectType) {
                     console.log('Found existing scan files. Resuming scan...');
                     await resumeScanning(processedFilePath, scanFilePath);
                 } else {
-                    console.log('No previous scan data found. Starting fresh scan...');
-                    await startScanning(folderPath);
+                    console.log('No previous scan data found.');
+                   
                 }
             } else {
-                console.log('Review folder not found. Starting fresh scan...');
-                await startScanning(folderPath);
+                console.log('Review folder not found.');
+               
             }
         } else {
             console.log('Invalid project type.');
@@ -38,10 +39,11 @@ async function scanProject(folderPath, projectType) {
 
 /**
  * Start scanning the project files from scratch.
- * @param {string} folderPath - The root path of the project.
+ * @param {string} reviewFolderPath - The root path of the project.
  */
-async function startScanning(folderPath) {
-    console.log(`Scanning folder: ${folderPath}`);
+async function startScanning(orginalProjectPath,scanProjectFolderPath) {
+    await extractFilesForScanning(originalProjectPath, scanProjectFolderPath);
+    console.log(`Scanning folder: ${orginalProjectPath}`);
     // Add scanning logic here
 }
 
