@@ -35,9 +35,10 @@ async function processFiles(scanFilesPath,processedFilesPath) {
             }
 
             const content = fs.readFileSync(filePath, 'utf-8');
-
+            // Extract the filename from the file path
+            const fileName = path.basename(filePath);
             // Review and update file content
-            const updatedContent = await reviewFileContent(content);
+            const updatedContent = await reviewFileContent(fileName,content);
             fs.writeFileSync(filePath, updatedContent, 'utf-8');
             console.log(`Updated file: ${filePath}`);
 
