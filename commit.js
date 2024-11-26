@@ -1,31 +1,22 @@
 const { exec } = require('child_process');
-const readline = require('readline');
+const fs = require('fs');
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-});
-
-function prompt(question) {
-    return new Promise((resolve) => rl.question(question, resolve));
-}
-
-async function commitChanges() {
+async function commitChanges(reviewFolderPath) {
     try {
-        const repoPath = await prompt('Enter the repository path: ');
+        // Read the project path from the projectpath.txt file
+        const projectPath = fs.readFileSync(`${reviewFolderPath}/projectpath.txt`, 'utf-8').trim();
 
-        exec(`cd ${repoPath} && git add . && git commit -m "Code changes reviewed and updated" && git push`, (error, stdout, stderr) => {
+        exec(`cd ${projectPath} && git add . && git commit -m "applied ai code reviewer changes" && git push`, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error committing changes: ${stderr}`);
             } else {
                 console.log('Changes committed and pushed successfully.');
             }
-            rl.close();
         });
     } catch (error) {
         console.error('Error:', error.message);
-        rl.close();
     }
 }
 
-commitChanges();
+// Export the function so it can be called from outside
+module.exports = commitChanges;

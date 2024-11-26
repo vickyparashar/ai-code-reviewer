@@ -1,13 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const { reviewFileContent } = require('./reviewer');
+const { commitChanges } = require('./commit');
 
 /**
  * Process files based on the given project configuration folder path.
  * @param {string} scanFilesPath - The root folder of the project config.
 *  @param {string} processedFilesPath - The root folder of the project config.
  */
-async function processFiles(scanFilesPath,processedFilesPath) {
+async function processFiles(reviewFolderPath,scanFilesPath,processedFilesPath) {
     try {
   
 
@@ -53,6 +54,10 @@ async function processFiles(scanFilesPath,processedFilesPath) {
         fs.writeFileSync(scanFilesPath, remainingFiles.join('\n'), 'utf-8');
 
         console.log('Processing completed.');
+
+        // Commit changes
+        await commitChanges(reviewFolderPath);
+
     } catch (error) {
         console.error('Error processing files:', error.message);
     }

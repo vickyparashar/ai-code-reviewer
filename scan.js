@@ -22,7 +22,7 @@ async function scanProject(reviewFolderPath) {
 
             if (fs.existsSync(processedFilePath) && fs.existsSync(scanFilePath)) {
                 console.log('Found existing scan files. scan...');
-                await startScanning(processedFilePath, scanFilePath);
+                await startScanning(reviewFolderPath,processedFilePath, scanFilePath);
             } else {
                 console.log('No previous scan data found.');
                
@@ -43,9 +43,9 @@ async function scanProject(reviewFolderPath) {
  * @param {string} processedFilePath - Path to the processed files list.
  * @param {string} scanFilePath - Path to the scan files list.
  */
-async function startScanning(processedFilePath, scanFilePath) {
+async function startScanning(reviewFolderPath,processedFilePath, scanFilePath) {
     console.log(`scan using files: ${processedFilePath} and ${scanFilePath}`);
-    await  processFiles(scanFilePath,processedFilePath);
+    await  processFiles(reviewFolderPath,scanFilePath,processedFilePath);
     // Add resumption logic here
 }
 
