@@ -20,7 +20,7 @@ async function extractFilesForScanning(originalProjectPath, scanProjectFolderPat
         const scanFilesFilePath = path.join(reviewFolderPath, 'scanfiles.txt');
 
         // Write scanProjectFolderPath to projectpath.txt
-        await fs.writeFile(projectPathFilePath, scanProjectFolderPath);
+        await fs.writeFile(projectPathFilePath, originalProjectPath);
 
         // Determine the actual start folder path
         const scanFolderPath = scanProjectFolderPath.trim() === '' || scanProjectFolderPath === '\\'

@@ -7,7 +7,7 @@ const extractFilesForScanning = require('./extractFilesForScanning');
  * @param {string} reviewFolderPath - The root path of the project.
  * @param {string} projectType - Indicates if the project is new or existing.
  */
-async function scanProject(orginalProjectPath,reviewFolderPath, projectType) {
+async function scanProject(reviewFolderPath, projectType) {
     try {
         if (projectType.toLowerCase() === 'new') {
             console.log('Starting fresh scan for the new project.');

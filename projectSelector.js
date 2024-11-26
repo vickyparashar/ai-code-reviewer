@@ -23,7 +23,7 @@ function prompt(question) {
  * @returns {string[]} - Array of project paths.
  */
 function listExistingProjects() {
-    const projectDir = path.join(__dirname, 'project');
+    const projectDir = path.join(__dirname, 'project/code-scan');
     if (!fs.existsSync(projectDir)) {
         console.log('No project directory found.');
         return [];
