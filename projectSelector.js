@@ -74,9 +74,9 @@ async function projectSelector() {
             const projects = listExistingProjects();
             if (projects.length > 0) {
                 const selectedProject = await selectExistingProject(projects);
-                const projectPath = path.join(__dirname, 'project', selectedProject);
+                const projectPath = path.join(__dirname, 'project/code-scan', selectedProject);
                 console.log(`Starting scan for selected project: ${selectedProject}`);
-                await scanProject(projectPath,"existing"); // Start scanning the selected project
+                await scanProject(projectPath); // Start scanning the selected project
             }
         } else {
             console.log('Invalid input. Please type "new" or "existing".');
