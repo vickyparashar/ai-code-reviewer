@@ -1,2 +1,0 @@
-C:\Vicky\tools\ai-code-reviewer\project\code\test-dummy-project\script\config-vm-with-role.ps1
-C:\Vicky\tools\ai-code-reviewer\project\code\test-dummy-project\script\config-vm-with-role.ps1

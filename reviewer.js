@@ -7,6 +7,7 @@ const apiKey = process.env.GROK_API_KEY;
  * @returns {Promise<string>} - The formatted and reviewed file content.
  */
 async function reviewFileContent(filename,content) {
+
     try {
     const inputText = content;
     const xaiApiKey = apiKey;

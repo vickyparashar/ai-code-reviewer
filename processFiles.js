@@ -30,6 +30,7 @@ async function processFiles(scanFilesPath,processedFilesPath) {
             // Ensure the file exists before attempting to process
             const filePath =file;
             if (!fs.existsSync(filePath)) {
+                console.log("check"+filePath)
                 console.error(`File not found: ${filePath}`);
                 continue;
             }
