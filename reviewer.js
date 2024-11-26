@@ -63,7 +63,10 @@ async function reviewFileContent(filename, content) {
  * @returns {string} - The formatted "under review" file content.
  */
 function formatReviewedContent(reviewedContent) {
-  return reviewedContent;
+  const parts = reviewedContent.split(/```[a-zA-Z0-9- ]*/);
+  
+  // Return the second part of the split array (index 1)
+  return parts[1] || null; // Fallback to null if the index doesn't exist
 }
 
 module.exports = { reviewFileContent };
