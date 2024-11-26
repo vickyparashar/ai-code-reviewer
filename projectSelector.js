@@ -69,7 +69,8 @@ async function projectSelector() {
 
         if (projectType.toLowerCase() === 'new') {
             console.log('Proceeding with checkout...');
-            await checkoutRepository(); // Call checkout if it's a new project
+            const configFolderPath = await checkoutRepository(); // Call checkout if it's a new project
+            await scanProject(configFolderPath); // Start scanning the selected project
         } else if (projectType.toLowerCase() === 'existing') {
             const projects = listExistingProjects();
             if (projects.length > 0) {
