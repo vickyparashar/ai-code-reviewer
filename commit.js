@@ -18,5 +18,5 @@ async function commitChanges(reviewFolderPath) {
     }
 }
 
-// Export the function so it can be called from outside
+// Export the function as the default export
 module.exports = commitChanges;

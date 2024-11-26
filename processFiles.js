@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { reviewFileContent } = require('./reviewer');
-const { commitChanges } = require('./commit');
+const commitChanges = require('./commit');
+
 
 /**
  * Process files based on the given project configuration folder path.
