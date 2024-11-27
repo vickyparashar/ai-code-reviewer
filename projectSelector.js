@@ -7,6 +7,7 @@ const scanProject = require('./scan'); // Import scan function
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
+    terminal: false,
 });
 
 /**
