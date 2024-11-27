@@ -130,4 +130,4 @@ dist
 .pnp.*
 
 # add project repo
-project/*
+project/
